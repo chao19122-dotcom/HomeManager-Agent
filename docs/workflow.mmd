@@ -1,0 +1,8 @@
+flowchart TD
+    START([用户输入]) --> llm_decision[llm_decision\n在线模型选择工具或直接回答]
+    llm_decision -->|有 Tool Calls| tool_execution[tool_execution\n逐项参数校验 / 权限校验 / 串行执行]
+    tool_execution --> state_update[state_update\n更新当前会话状态 / 回传 Observation]
+    state_update -->|成功且轮次小于3| llm_decision
+    state_update -->|需确认 / 失败 / 达到上限| llm_summary[llm_summary\n模型汇总 / 失败时确定性结果保护]
+    llm_decision -->|无调用 / 模型失败| llm_summary
+    llm_summary --> END([最终回复 / 日志 / 面板])
