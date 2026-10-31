@@ -1,0 +1,1 @@
+"""HomeManager tests package."""
